@@ -249,35 +249,6 @@ def run_with_limited_time(func, args, kwargs, time):
 
     return queue.get()
 
-
-
-def walk_tree(path:str,
-              ignore:None|Callable[[str, list[str], list[str]], list[str]] = None,
-              callback_file:None|Callable[[str, str, int, int, int], None] = None,
-              callback_dir:None|Callable[[str, str, int, int, int], None] = None,
-              current_depth:int = 0,
-              max_depth:int|None = None):
-    files = []
-    dirs = []
-    for elem in os.scandir(path):
-        if elem.is_symlink():
-            continue
-        if elem.is_dir():
-            dirs.append(elem)
-            continue
-        if elem.is_file():
-            files.append(elem)
-            continue
-        raise NotImplementedError(elem)
-    ignored = ignore(path, [dir.name for dir in dirs], [file.name for file in files]) if ignore else []
-    for (index, file) in enumerate([file for file in files if file.name not in ignored]):
-        if callback_file: callback_file(path, file.name, index, len(files)-1, current_depth)
-    for (index, dir) in enumerate([dir for dir in dirs if dir.name not in ignored]):
-        if callback_dir: callback_dir(path, dir.name, index, len(dirs)-1, current_depth)
-        if not max_depth or max_depth > current_depth:
-            walk_tree(f"{path}/{dir.name}", ignore, callback_file, callback_dir, current_depth+1)
-    
-    
 #if we call this file, call the ./main.py file in the same directory instead
 if __name__ == "__main__": # pragma: no cover
     exe = sys.executable
