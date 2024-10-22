@@ -1,0 +1,7 @@
+#ignore python cache files
+__pycache__/
+.mypy_cache/
+
+
+#ignore .update_times
+.update_times
