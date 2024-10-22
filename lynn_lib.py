@@ -6,6 +6,7 @@ This module provides utility for working with attributes, types, console, and pr
 
 from __future__ import annotations
 
+import dataclasses
 from multiprocessing import Process, Queue
 import os
 import re
@@ -143,6 +144,7 @@ class COLORS():
     COLORS class provides ANSI escape sequences for text formatting and coloring in the terminal.
     """
     #See: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+    @dataclasses.dataclass
     class Foreground():
         """
         Provides ANSI escape codes for setting the foreground color in terminal output.
@@ -166,6 +168,7 @@ class COLORS():
         BRIGHT_CYAN = '\033[96m'
         BRIGHT_WHITE = '\033[97m'
 
+    @dataclasses.dataclass
     class Background():
         """
         A class to represent background colors using ANSI escape codes.
